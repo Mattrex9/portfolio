@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matthew Krakowiak | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050505;
+      --bg-soft: #0b0b0c;
+      --panel: #111113;
+      --panel-light: #171719;
+      --white: #f4f4f5;
+      --text: #d4d4d8;
+      --muted: #8a8a91;
+      --faint: #52525b;
+      --border: rgba(255,255,255,0.11);
+      --border-strong: rgba(255,255,255,0.22);
+      --shadow: 0 24px 80px rgba(0,0,0,0.45);
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.10), transparent 32%);
+      z-index: -1;
+    }
+
+    a { color: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      border-bottom: 1px solid transparent;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(5,5,5,0.82);
+      backdrop-filter: blur(18px);
+      border-color: var(--border);
+    }
+
+    .nav-inner {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-button {
+      padding: 10px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      color: var(--white) !important;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--white);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 116px 0 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 0 22px rgba(255,255,255,0.45);
+    }
+
+    h1 {
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      line-height: 0.92;
+      letter-spacing: -0.075em;
+      color: var(--white);
+      max-width: 740px;
+    }
+
+    .hero p {
+      margin-top: 28px;
+      max-width: 610px;
+      font-size: 1.08rem;
+      color: var(--muted);
+    }
+
+    .hero p strong { color: var(--white); font-weight: 600; }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--white);
+      color: #050505;
+      border: 1px solid var(--white);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border-strong);
+      color: var(--white);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.07); }
+
+    .scorecard {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scorecard::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 42%);
+      pointer-events: none;
+    }
+
+    .scorecard-inner {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #09090a;
+      overflow: hidden;
+    }
+
+    .score-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--white);
+    }
+
+    .live-dot::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--white);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
+    }
+
+    .leaderboard {
+      padding: 10px;
+    }
+
+    .leader-row {
+      display: grid;
+      grid-template-columns: 48px 1fr 54px 54px;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 12px;
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .leader-row:nth-child(odd) { background: rgba(255,255,255,0.04); }
+    .leader-row.header {
+      font-family: var(--font-mono);
+      color: var(--faint);
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: transparent;
+    }
+
+    .rank, .score, .points { font-family: var(--font-mono); }
+    .score, .points { text-align: right; }
+    .player { color: var(--white); font-weight: 600; }
+
+    section {
+      padding: 96px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 34px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+
+    .section-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: clamp(2.1rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+      color: var(--white);
+    }
+
+    .section-note {
+      max-width: 390px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .case-study {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 28px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.035);
+      border-radius: 24px;
+      padding: 28px;
+    }
+
+    .panel h3 {
+      color: var(--white);
+      font-size: 1.28rem;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+
+    .panel p, .panel li { color: var(--muted); }
+    .panel ul { padding-left: 18px; margin-top: 16px; }
+    .panel li { margin-bottom: 10px; }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      background: #0a0a0b;
+    }
+
+    .metric-number {
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      color: var(--muted);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .feature-card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 20px;
+      min-height: 170px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+    }
+
+    .feature-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--faint);
+      margin-bottom: 28px;
+    }
+
+    .feature-card h3 {
+      color: var(--white);
+      font-size: 1rem;
+      margin-bottom: 9px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .about-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 17px 18px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .about-item span:first-child {
+      font-family: var(--font-mono);
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .about-item span:last-child {
+      color: var(--white);
+      text-align: right;
+      font-weight: 600;
+    }
+
+
+
+    .interest-toggle {
+      width: 100%;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .interest-toggle:hover {
+      border-color: var(--border-strong);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .interest-toggle span:last-child {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .interest-panel {
+      display: none;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .interest-panel.open { display: grid; }
+
+    .interest-card {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.025);
+      text-decoration: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .interest-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+
+    .interest-card strong {
+      display: block;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .interest-card span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .contact-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 28px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+      border-radius: 28px;
+      padding: 38px;
+    }
+
+    .contact-card h2 { margin-bottom: 14px; }
+    .contact-card p { color: var(--muted); max-width: 560px; }
+
+    .contact-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 0;
+      color: var(--faint);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 880px) {
+      .hero-grid,
+      .case-study,
+      .about-grid,
+      .contact-card {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: start; }
+      .contact-links { justify-content: flex-start; }
+    }
+
+    @media (max-width: 680px) {
+      .container, .nav-inner { width: min(100% - 32px, 1120px); }
+      .nav-links {
+        display: none;
+        position: fixed;
+        inset: 74px 16px auto 16px;
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: rgba(10,10,11,0.96);
+        backdrop-filter: blur(14px);
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; padding: 10px; }
+      .hamburger { display: inline-flex; }
+      h1 { font-size: clamp(3rem, 16vw, 5.2rem); }
+      section { padding: 72px 0; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .leader-row { grid-template-columns: 36px 1fr 46px; }
+      .points { display: none; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a class="logo" href="#home">Matthew Krakowiak</a>
+      <button class="hamburger" id="hamburger">Menu</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#case-study">Project</a></li>
+        <li><a href="#build">Build</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-button">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Portfolio</div>
+          <h1>I build projects to learn, improve, and solve real problems.</h1>
+          <p>
+            I'm Matthew Krakowiak, a University of Michigan engineering student. My main project is a
+            <strong>live Masters Tournament bracket app</strong> that pulls leaderboard data, calculates custom scores,
+            and turns a golf tournament into an interactive competition.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://mattrex9.github.io/themastersbracket1/" target="_blank">View Live App ↗</a>
+            <a class="btn btn-secondary" href="#case-study">Read Case Study</a>
+          </div>
+        </div>
+
+        <div class="scorecard reveal">
+          <div class="scorecard-inner">
+            <div class="score-top">
+              <span>Masters Bracket</span>
+              <span class="live-dot">Live Data</span>
+            </div>
+            <div class="leaderboard">
+              <div class="leader-row header">
+                <div>Pos</div><div>Golfer</div><div class="score">Score</div><div class="points">Pts</div>
+              </div>
+              <div class="leader-row">
+                <div class="rank">01</div><div class="player">Scheffler</div><div class="score">-11</div><div class="points">100</div>
+              </div>
+              <div class="leader-row">
+                <div class="rank">02</div><div class="player">McIlroy</div><div class="score">-8</div><div class="points">85</div>
+              </div>
+              <div class="leader-row">
+                <div class="rank">03</div><div class="player">Rahm</div><div class="score">-7</div><div class="points">70</div>
+              </div>
+              <div class="leader-row">
+                <div class="rank">04</div><div class="player">Aberg</div><div class="score">-5</div><div class="points">55</div>
+              </div>
+              <div class="leader-row">
+                <div class="rank">05</div><div class="player">Thomas</div><div class="score">-4</div><div class="points">45</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="case-study">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">My Master's Tournament Website</div>
+            <h2>Masters Tournament Bracket App</h2>
+          </div>
+          <p class="section-note">A shipped JavaScript project built around live sports data, user picks, leaderboard tracking, and custom scoring logic.</p>
+        </div>
+
+        <div class="case-study">
+          <div class="panel reveal">
+            <h3>The idea</h3>
+            <p>
+              I wanted to make watching the Masters more competitive with my friends by letting users pick golfers and track how their picks perform in real time. Instead of a static bracket, the app updates around live leaderboard data and calculates points from each golfer's position.
+            </p>
+            <div class="metric-grid">
+              <div class="metric">
+                <div class="metric-number">1</div>
+                <div class="metric-label">Live App Shipped</div>
+              </div>
+              <div class="metric">
+                <div class="metric-number">ESPN</div>
+                <div class="metric-label">Data Source</div>
+              </div>
+              <div class="metric">
+                <div class="metric-number">JS</div>
+                <div class="metric-label">Core Logic</div>
+              </div>
+              <div class="metric">
+                <div class="metric-number">GitHub</div>
+                <div class="metric-label">Deployed</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel reveal">
+            <h3>What I built</h3>
+            <ul>
+              <li>A live web app where users can pick golfers and compare performance during the tournament.</li>
+              <li>Custom scoring logic that awards points based on leaderboard position.</li>
+              <li>Integration with ESPN leaderboard data to keep standings current.</li>
+              <li>A user interface focused on clarity: picks, rankings, scoring, and tournament movement.</li>
+            </ul>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://mattrex9.github.io/themastersbracket1/" target="_blank">Open Project ↗</a>
+              <a class="btn btn-secondary" href="#build">Technical Breakdown</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="build">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Technical Breakdown</div>
+            <h2>What I learned by building it.</h2>
+          </div>
+
+        <div class="feature-grid">
+          <div class="feature-card reveal">
+            <div class="feature-num">01</div>
+            <h3>Working With Live Data</h3>
+            <p>I learned how to connect a frontend project to outside tournament data and turn that data into something users can actually interact with.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-num">02</div>
+            <h3>Turning Rules Into Code</h3>
+            <p>The project shows that I can take a real scoring system, break it into steps, and write logic that calculates results clearly.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-num">03</div>
+            <h3>Managing User Choices</h3>
+            <p>I practiced tracking selected golfers, updating results, and keeping the interface connected to the current state of the bracket.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-num">04</div>
+            <h3>Designing For Clarity</h3>
+            <p>I learned that a useful app is not just about code. The user needs to instantly understand picks, rankings, and point totals.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-num">05</div>
+            <h3>Shipping A Real Project</h3>
+            <p>I deployed the app publicly, tested it through GitHub Pages, and made something that can be opened instead of just described.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-num">06</div>
+            <h3>Building From An Idea</h3>
+            <p>The project shows initiative: I found a real use case, built the first version, and learned what I would improve in the next version.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="guitar">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Next Project</div>
+            <h2>AI Guitar Practice App</h2>
+          </div>
+          <p class="section-note">A project I'm planning based on how I personally practice and improve on guitar.</p>
+        </div>
+
+        <div class="case-study">
+          <div class="panel reveal">
+            <h3>The problem</h3>
+            <p>
+              
+              Learning guitar has felt inconsistent. Tabs don’t always give the full picture, tutorials are slow, and theory is often hard to understand. It’s difficult to turn a song you like into something clear and useful to practice.
+              
+            </p>
+
+            <h3 style="margin-top:20px;">The idea</h3>
+            <p>
+              I want to build an app where a user can input a song and instantly get clean chords or tabs. The focus is not just generating notes, but making something that is actually playable and useful for improving. I also want to include a simple way to learn guitar theory quickly, without overwhelming the user.
+            </p>
+            <p>
+              
+              Another issue I have come across is trying to memorize the fretboard's notes. I want to come up with a super interactive and fun way for users to be able to learn their guitar so they can play to the best of their ability.
+              
+            </p>
+          </div>
+
+          <div class="panel reveal">
+            
+
+            <h3 style="margin-top:20px;">Why I'm building it</h3>
+            <p>
+              I’ve found that the fastest way to improve is by playing songs I actually enjoy, but the current tools make that harder than it should be. This project is about making practice faster, clearer, and more engaging. I haven’t found a tool that fully solves this problem, and I want to make practicing guitar more direct and enjoyable instead of frustrating.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">About Me</div>
+            <h2>Engineering, Golf, and Music</h2>
+          </div>
+          <p class="section-note">The goal is to show range without burying the main project.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="panel reveal">
+            <h3>Who I am</h3>
+            <p>
+              I'm a Mechanical Engineering student at the University of Michigan with an interest in computer science, design, and building practical tools. I like projects where the result is useful, visual, and easy for someone else to try.
+            </p>
+            <br>
+            <p>
+              Outside of classes, I'm involved in MRacing, Michigan Men's Glee Club, golf, piano, and guitar. Those experiences taught me discipline, precision, and how to keep improving through repetition.
+            </p>
+          </div>
+
+          <div class="about-list reveal">
+            <div class="about-item"><span>School</span><span>University of Michigan</span></div>
+            <div class="about-item"><span>Major</span><span>Mechanical Engineering</span></div>
+            <button class="about-item interest-toggle" id="interestToggle" type="button">
+              <span>Interests</span><span>Click to Expand</span>
+            </button>
+            <div class="interest-panel" id="interestPanel">
+              <a href="#case-study" class="interest-card"><strong>Golf</strong><span>I have played golf my whole life, and it has taught me serious lessons about discipline and hard work </span></a>
+              <div class="interest-card"><strong>Piano</strong><span>I have played piano since I was 5, and I still play today and take practice very seriously</span></div>
+              <div class="interest-card"><strong>Guitar</strong><span>I recently picked up guitar, but I have completely fallen in love with the instrument. I have not been playing for too long, but it has already become my favorite pasttime.</span></div>
+              <a href="https://ummgc.org/" target="_blank" class="interest-card"><strong>Michigan Men's Glee Club ↗</strong><span>Member of the University of Michigan Men's Glee Club.</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel reveal" style="margin-top:22px;">
+          <h3>Skills</h3>
+          <div class="skills">
+            <span class="skill">JavaScript</span>
+            <span class="skill">HTML</span>
+            <span class="skill">CSS</span>
+            <span class="skill">React / Next.js</span>
+            <span class="skill">Java</span>
+            <span class="skill">GitHub Pages</span>
+            <span class="skill">Problem Solving</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-card reveal">
+          <div>
+            <div class="section-kicker">Contact</div>
+            <h2>Let's connect.</h2>
+            <p>I'm looking for internship opportunities where I can keep building, learning, and contributing to real engineering or software projects.</p>
+          </div>
+          <div class="contact-links">
+            <a class="btn btn-primary" href="mailto:mattkrakowiak9@gmail.com">Email Me</a>
+            <a class="btn btn-secondary" href="https://linkedin.com/in/matthew-krakowiak-093010323" target="_blank">LinkedIn ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>Matthew Krakowiak</span>
+      <span>Built with HTML, CSS, and JavaScript</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    const interestToggle = document.getElementById('interestToggle');
+    const interestPanel = document.getElementById('interestPanel');
+
+    if (interestToggle && interestPanel) {
+      interestToggle.addEventListener('click', () => {
+        interestPanel.classList.toggle('open');
+        const isOpen = interestPanel.classList.contains('open');
+        interestToggle.querySelector('span:last-child').textContent = isOpen ? 'Click to Collapse' : 'Click to Expand';
+      });
+    }
+
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
